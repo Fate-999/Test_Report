@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/TestReport/GUI.py" />
+    <file url="file://$PROJECT_DIR$/TestReport/test.py" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (TestReport)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (Test_Report) (3)" project-jdk-type="Python SDK" />
 </project>

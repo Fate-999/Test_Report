@@ -11,7 +11,9 @@ import Refresh_All_Table
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QDate, QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QFileDialog, QHBoxLayout, QVBoxLayout, QRadioButton, \
-    QDateEdit, QMessageBox
+    QDateEdit, QMessageBox, QProgressDialog
+
+
 
 
 class QmyWidget(QWidget):
@@ -34,6 +36,7 @@ class QmyWidget(QWidget):
         self.layout5 = QHBoxLayout()
         self.layout6 = QHBoxLayout()
         self.layout7 = QHBoxLayout()
+        self.layout9 = QHBoxLayout()
         # 创建文件Items
         self.select_result = QPushButton("选择文件", self)
         self.select_result.clicked.connect(self.select_result_url, )
@@ -47,6 +50,8 @@ class QmyWidget(QWidget):
         self.issue_url = QtWidgets.QLabel(" ", self)
         self.yes_or_no = QtWidgets.QLabel("请选择是否为完整报告", self)
         self.date = QtWidgets.QLabel("请输入BIOS Release日期", self)
+        self.bios_version_label = QtWidgets.QLabel("请输入当前BIOS版本（仅输入数字）:")
+        self.bios_version = QtWidgets.QLineEdit("",self)
         self.test_report = QtWidgets.QLabel("请选择TestReport存放地址", self)
         self.runing_status = QtWidgets.QLabel("等待数据..", self)
         self.test_report_url = QtWidgets.QLabel(" ", self)
@@ -101,6 +106,8 @@ class QmyWidget(QWidget):
         self.layout8.addWidget(self.muti_result_btn)
         self.layout4.addWidget(self.date)
         self.layout4.addWidget(self.start_date)
+        self.layout9.addWidget(self.bios_version_label)
+        self.layout9.addWidget(self.bios_version)
         self.layout5.addWidget(self.test_report)
         self.layout5.addWidget(self.test_report_url)
         self.layout5.addWidget(self.test_report_btn)
@@ -114,6 +121,7 @@ class QmyWidget(QWidget):
         self.all_layout.addLayout(self.layout2)
         self.all_layout.addLayout(self.layout3)
         self.all_layout.addLayout(self.layout8)
+        self.all_layout.addLayout(self.layout9)
         self.all_layout.addLayout(self.layout4)
         self.all_layout.addLayout(self.layout5)
         self.all_layout.addLayout(self.layout6)
@@ -199,6 +207,7 @@ class QmyWidget(QWidget):
         report_url = self.test_report_url.text()
         template_url = self.template_url.text()
         mutiresult_url = self.muti_result_url.text()
+        bios_version = self.bios_version.text()
         app = App.Launch_App()
 
         if self.yes_btn.isChecked():
@@ -207,7 +216,7 @@ class QmyWidget(QWidget):
                 Copy_Test_Case.Copy_test_case(app, result_url,report_url,template_url)
                 Find_Issue_Number.Search_bugid_paste_allissue(app,report_url)
                 Copy_Issue_To_Report.Copy_Case(app, issue_url,report_url)
-                Judge_New_Issue.Judge(app, Time,report_url)
+                Judge_New_Issue.Judge(app, Time,report_url,bios_version)
                 Refresh_All_Table.Refresh_all(app,report_url)
 
             except Exception as e:
@@ -223,7 +232,7 @@ class QmyWidget(QWidget):
                 Copy_Test_Case.Copy_multi_test_case(app,report_url,mutiresult_url,template_url)
                 Find_Issue_Number.Search_bugid_paste_allissue(app, report_url)
                 Copy_Issue_To_Report.Copy_Case(app, issue_url, report_url)
-                Judge_New_Issue.Judge(app, Time, report_url)
+                Judge_New_Issue.Judge(app, Time, report_url,bios_version)
                 Refresh_All_Table.Refresh_all(app, report_url)
             except Exception as e:
                 print(e)
@@ -238,6 +247,9 @@ class QmyWidget(QWidget):
         self.result_url.setText(" ")
         self.template_url.setText(" ")
         self.start_date.setDate(QDate(2023, 5, 1))
+
+
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
