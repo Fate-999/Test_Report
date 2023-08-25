@@ -5,8 +5,8 @@ import App
 
 def open_file(app,issue_url,report_url):
     try:
-        issue = app.books.open(fullname=issue_url)  # 获取result_sheet对象
-        template = app.books.open(fullname=report_url)  # 获取template对象
+        issue = app.books.open(fullname=issue_url)
+        template = app.books.open(fullname=report_url)
         issue_sheet = template.sheets("All issue")  # 模板 All issue sheet
         issue_table = issue.sheets("report")  # issue table
         return issue_table, issue_sheet, issue, template
@@ -24,8 +24,9 @@ def Copy_Case(app,issue_url,template_url):
         BugID = []
         for k in BugID_values:
                 k = str(k)
-                z = k[:8]
-                BugID.append(z)
+                if k != 'None':
+                    z = k[:8]
+                    BugID.append(z)
 
         issue_rows = issue_table.used_range.last_cell.row
         issue_id = list(issue_table['A1:A%d' % issue_rows].value)
